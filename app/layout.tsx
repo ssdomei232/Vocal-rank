@@ -19,6 +19,7 @@ export default function RootLayout({
     <html lang="zh" suppressHydrationWarning>
       <head>
         <meta name="referrer" content="no-referrer" />
+        <script defer src="https://umami.mmeiblog.cn/script.js" data-website-id="157306a2-e1eb-4571-9d19-0d4b2c28eddd"></script>
       </head>
       <body className={inter.className}>{children}</body>
     </html>
