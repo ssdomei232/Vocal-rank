@@ -1,10 +1,12 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
+import { blockedUploaderIds } from "@/config/blocked-ids"
 
 interface Uploader {
   mid: string
@@ -19,6 +21,7 @@ export default function UploaderSearch() {
   const [uploaders, setUploaders] = useState<Uploader[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const router = useRouter()
 
   const handleSearch = async () => {
     if (!uid) {
@@ -26,15 +29,21 @@ export default function UploaderSearch() {
       return
     }
 
+    // 检查是否为禁止的 UP 主 ID
+    if (blockedUploaderIds.includes(uid)) {
+      router.push("/blocked")
+      return
+    }
+
     setLoading(true)
     setError(null)
     try {
-      const response = await fetch(`https://ecs-113-44-166-103.compute.hwclouds-dns.com/basic/v1/uploader/${uid}`)
+      const response = await fetch(`https://api.ninevocalrank.top/basic/v1/uploader/${uid}`)
       if (!response.ok) {
         throw new Error("服务器响应错误")
       }
       const data: Uploader = await response.json()
-      setUploaders([data]) // 将单个 UP 主数据包装在数组中
+      setUploaders([data])
     } catch (error) {
       console.error("搜索UP主时出错:", error)
       setError("搜索过程中出现错误")
