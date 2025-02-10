@@ -13,7 +13,7 @@ export default function ServerStats() {
     const fetchServerStat = async () => {
       try {
         setLoading(true)
-        const response = await fetch("https://api.ninevocalrank.top/basic/v1/ServerStat/info")
+        const response = await fetch("https://ecs-113-44-166-103.compute.hwclouds-dns.com/basic/v1/ServerStat/info")
         if (!response.ok) {
           throw new Error("服务器响应错误")
         }

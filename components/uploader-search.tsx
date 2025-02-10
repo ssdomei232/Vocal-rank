@@ -29,7 +29,7 @@ export default function UploaderSearch() {
     setLoading(true)
     setError(null)
     try {
-      const response = await fetch(`https://api.ninevocalrank.top/basic/v1/uploader/${uid}`)
+      const response = await fetch(`https://ecs-113-44-166-103.compute.hwclouds-dns.com/basic/v1/uploader/${uid}`)
       if (!response.ok) {
         throw new Error("服务器响应错误")
       }

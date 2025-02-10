@@ -18,8 +18,8 @@ export default function DatabaseStats() {
     const fetchCounts = async () => {
       try {
         setLoading(true)
-        const videoResponse = await fetch("https://api.ninevocalrank.top/basic/v1/database/video_count")
-        const uploaderResponse = await fetch("https://api.ninevocalrank.top/basic/v1/database/uploader_count")
+        const videoResponse = await fetch("https://ecs-113-44-166-103.compute.hwclouds-dns.com/basic/v1/database/video_count")
+        const uploaderResponse = await fetch("https://ecs-113-44-166-103.compute.hwclouds-dns.com/basic/v1/database/uploader_count")
 
         if (!videoResponse.ok || !uploaderResponse.ok) {
           throw new Error("服务器响应错误")
