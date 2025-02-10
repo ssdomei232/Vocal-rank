@@ -5,6 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog"
 
 interface Video {
   video_stat: {
@@ -68,6 +76,9 @@ export default function VideoSearch() {
   const [videos, setVideos] = useState<Video[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [showCoverDialog, setShowCoverDialog] = useState(false)
+  const [confirmText, setConfirmText] = useState("")
+  const [showCover, setShowCover] = useState(false)
 
   const handleSearch = async () => {
     if (!searchTerm) {
@@ -90,13 +101,13 @@ export default function VideoSearch() {
       const data = await response.json()
       const weekly_data = await weekly_response.json()
 
-      // 合并 data 和 weekly_data
       const combinedData = {
         ...data,
         score_rank: weekly_data.score_rank,
       }
 
       setVideos([combinedData])
+      setShowCover(false)
       if (videos.length === 0) {
         setError("未找到匹配的视频")
       }
@@ -105,6 +116,17 @@ export default function VideoSearch() {
       setError("搜索过程中出现错误")
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleShowCover = () => {
+    setShowCoverDialog(true)
+  }
+
+  const handleConfirmShowCover = () => {
+    if (confirmText === "我已知晓") {
+      setShowCover(true)
+      setShowCoverDialog(false)
     }
   }
 
@@ -134,12 +156,16 @@ export default function VideoSearch() {
                 <li key={video.video_id.bvid} className="border p-6 rounded-lg bg-white shadow-md">
                   <div className="flex flex-col gap-6">
                     <div className="w-full">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={video.video_info.pic || "/placeholder.svg"}
-                        className="w-full h-64 object-cover rounded-lg"
-                        alt="视频封面"
-                      ></img>
+                      {showCover ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={video.video_info.pic || "/placeholder.svg"}
+                          className="w-full h-64 object-cover rounded-lg"
+                          alt="视频封面"
+                        />
+                      ) : (
+                        <Button onClick={handleShowCover}>显示封面</Button>
+                      )}
                     </div>
                     <div className="w-full">
                       <h3 className="font-bold text-xl mb-2">{video.video_info.title}</h3>
@@ -219,6 +245,26 @@ export default function VideoSearch() {
           !loading && !error && <p>暂无数据</p>
         )}
       </CardContent>
+      <Dialog open={showCoverDialog} onOpenChange={setShowCoverDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>确认显示封面</DialogTitle>
+            <DialogDescription>
+              出于对著作权人的尊重建议给出说明：仅以介绍目的从哔哩哔哩实时引用，除另有说明外著作权人保留所有权利，内容不代表本站观点，本站也不是这些内容的著作权人。
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <Input
+              placeholder="请输入'我已知晓'以确认"
+              value={confirmText}
+              onChange={(e) => setConfirmText(e.target.value)}
+            />
+          </div>
+          <DialogFooter>
+            <Button onClick={handleConfirmShowCover}>确认</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Card>
   )
 }
