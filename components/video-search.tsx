@@ -1,139 +1,141 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Loader2 } from "lucide-react"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog"
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+// import {
+//   Dialog,
+//   DialogContent,
+//   DialogDescription,
+//   DialogHeader,
+//   DialogTitle,
+//   DialogFooter,
+// } from "@/components/ui/dialog";
 
 interface Video {
   video_stat: {
-    view: number
-    like: number
-    coin: number
-    favorite: number
-    reply: number
-    share: number
-    danmaku: number
-  }
+    view: number;
+    like: number;
+    coin: number;
+    favorite: number;
+    reply: number;
+    share: number;
+    danmaku: number;
+  };
   video_info: {
-    uploader_mid: string
-    uploader_name: string
-    title: string
-    pic: string
-    pages: number
-    timestamp: number
-  }
+    uploader_mid: string;
+    uploader_name: string;
+    title: string;
+    pic: string;
+    pages: number;
+    timestamp: number;
+  };
   video_id: {
-    avid: string
-    bvid: string
-  }
+    avid: string;
+    bvid: string;
+  };
   vrank_info: {
-    vrank_score: number
-    rank: string
-    rank_code: number
-    progress_percentage: number
-  }
+    vrank_score: number;
+    rank: string;
+    rank_code: number;
+    progress_percentage: number;
+  };
   video_increase: {
-    view: number
-    like: number
-    coin: number
-    favorite: number
-    reply: number
-    share: number
-    danmaku: number
-  }
-  score_rank: number
+    view: number;
+    like: number;
+    coin: number;
+    favorite: number;
+    reply: number;
+    share: number;
+    danmaku: number;
+  };
+  score_rank: number;
 }
 
 function getAchievement(views: number) {
-  if (views >= 10000000) return { name: "神话曲", next: null, progress: 100 }
+  if (views >= 10000000) return { name: "神话曲", next: null, progress: 100 };
   if (views >= 1000000)
     return {
       name: "传说曲",
       next: "神话曲",
       progress: (views / 10000000) * 100,
-    }
+    };
   if (views >= 100000)
     return {
       name: "殿堂曲",
       next: "传说曲",
       progress: (views / 1000000) * 100,
-    }
-  return { name: "未达成", next: "殿堂曲", progress: (views / 100000) * 100 }
+    };
+  return { name: "未达成", next: "殿堂曲", progress: (views / 100000) * 100 };
 }
 
 export default function VideoSearch() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [videos, setVideos] = useState<Video[]>([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [showCoverDialog, setShowCoverDialog] = useState(false)
-  const [confirmText, setConfirmText] = useState("")
-  const [showCover, setShowCover] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [videos, setVideos] = useState<Video[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  // const [showCoverDialog, setShowCoverDialog] = useState(false);
+  // const [confirmText, setConfirmText] = useState("");
+  // const [showCover, setShowCover] = useState(false);
 
   const handleSearch = async () => {
     if (!searchTerm) {
-      setError("请输入搜索内容")
-      return
+      setError("请输入搜索内容");
+      return;
     }
 
-    setLoading(true)
-    setError(null)
+    setLoading(true);
+    setError(null);
     try {
       const response = await fetch(
-        `https://ecs-113-44-166-103.compute.hwclouds-dns.com/vocaloid_rank/v1/video/${searchTerm}`,
-      )
+        `https://ecs-113-44-166-103.compute.hwclouds-dns.com/vocaloid_rank/v1/video/${searchTerm}`
+      );
       const weekly_response = await fetch(
-        `https://ecs-113-44-166-103.compute.hwclouds-dns.com/vocaloid_rank/v1/sorted/${searchTerm}`,
-      )
+        `https://ecs-113-44-166-103.compute.hwclouds-dns.com/vocaloid_rank/v1/sorted/${searchTerm}`
+      );
       if (!response.ok || !weekly_response.ok) {
-        throw new Error("服务器响应错误")
+        throw new Error("服务器响应错误");
       }
-      const data = await response.json()
-      const weekly_data = await weekly_response.json()
+      const data = await response.json();
+      const weekly_data = await weekly_response.json();
 
       const combinedData = {
         ...data,
         score_rank: weekly_data.score_rank,
-      }
+      };
 
-      setVideos([combinedData])
-      setShowCover(false)
+      setVideos([combinedData]);
+      // setShowCover(false);
       if (videos.length === 0) {
-        setError("未找到匹配的视频")
+        setError("未找到匹配的视频");
       }
     } catch (error) {
-      console.error("搜索视频时出错:", error)
-      setError("搜索过程中出现错误")
+      console.error("搜索视频时出错:", error);
+      setError("搜索过程中出现错误");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  const handleShowCover = () => {
-    setShowCoverDialog(true)
-  }
+  // const handleShowCover = () => {
+  //   setShowCoverDialog(true);
+  // };
 
-  const handleConfirmShowCover = () => {
-    if (confirmText === "我已知晓") {
-      setShowCover(true)
-      setShowCoverDialog(false)
-    }
-  }
+  // const handleConfirmShowCover = () => {
+  //   if (confirmText === "我已知晓") {
+  //     setShowCover(true);
+  //     setShowCoverDialog(false);
+  //   }
+  // };
 
   return (
     <Card className="bg-gradient-to-br from-yellow-100 to-red-100">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold text-primary">搜索视频</CardTitle>
+        <CardTitle className="text-2xl font-bold text-primary">
+          搜索视频
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex space-x-2 mb-4">
@@ -151,11 +153,15 @@ export default function VideoSearch() {
         {videos.length > 0 ? (
           <ul className="space-y-8">
             {videos.map((video) => {
-              const achievement = getAchievement(video.video_stat.view)
+              const achievement = getAchievement(video.video_stat.view);
               return (
-                <li key={video.video_id.bvid} className="border p-6 rounded-lg bg-white shadow-md">
+                <li
+                  key={video.video_id.bvid}
+                  className="border p-6 rounded-lg bg-white shadow-md"
+                >
                   <div className="flex flex-col gap-6">
-                    <div className="w-full">
+                    {/* 此功能可能引发版权纠纷，不再使用 */}
+                    {/*  <div className="w-full">
                       {showCover ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -165,30 +171,56 @@ export default function VideoSearch() {
                         />
                       ) : (
                         <Button onClick={handleShowCover}>显示封面</Button>
-                      )}
-                    </div>
+                      )} 
+                    </div> */}
                     <div className="w-full">
-                      <h3 className="font-bold text-xl mb-2">{video.video_info.title}</h3>
+                      <h3 className="font-bold text-xl mb-2">
+                        {video.video_info.title}
+                      </h3>
                       <p className="text-gray-600">
-                        UP主: {video.video_info.uploader_name} (UID: {video.video_info.uploader_mid})
+                        UP主: {video.video_info.uploader_name} (UID:{" "}
+                        {video.video_info.uploader_mid})
                       </p>
-                      <p className="text-gray-600">BV号: {video.video_id.bvid}</p>
-                      <p className="text-gray-600">AV号: {video.video_id.avid}</p>
+                      <p className="text-gray-600">
+                        BV号: {video.video_id.bvid}
+                      </p>
+                      <p className="text-gray-600">
+                        AV号: {video.video_id.avid}
+                      </p>
                       <div className="mt-4 grid grid-cols-2 gap-2">
-                        <p className="text-gray-600">播放量: {video.video_stat.view.toLocaleString()}</p>
-                        <p className="text-gray-600">点赞数: {video.video_stat.like.toLocaleString()}</p>
-                        <p className="text-gray-600">投币: {video.video_stat.coin.toLocaleString()}</p>
-                        <p className="text-gray-600">收藏: {video.video_stat.favorite.toLocaleString()}</p>
-                        <p className="text-gray-600">评论: {video.video_stat.reply.toLocaleString()}</p>
-                        <p className="text-gray-600">分享: {video.video_stat.share.toLocaleString()}</p>
-                        <p className="text-gray-600">弹幕数: {video.video_stat.danmaku.toLocaleString()}</p>
+                        <p className="text-gray-600">
+                          播放量: {video.video_stat.view.toLocaleString()}
+                        </p>
+                        <p className="text-gray-600">
+                          点赞数: {video.video_stat.like.toLocaleString()}
+                        </p>
+                        <p className="text-gray-600">
+                          投币: {video.video_stat.coin.toLocaleString()}
+                        </p>
+                        <p className="text-gray-600">
+                          收藏: {video.video_stat.favorite.toLocaleString()}
+                        </p>
+                        <p className="text-gray-600">
+                          评论: {video.video_stat.reply.toLocaleString()}
+                        </p>
+                        <p className="text-gray-600">
+                          分享: {video.video_stat.share.toLocaleString()}
+                        </p>
+                        <p className="text-gray-600">
+                          弹幕数: {video.video_stat.danmaku.toLocaleString()}
+                        </p>
                       </div>
                       <div className="mt-4 bg-blue-100 p-4 rounded-lg">
                         <h4 className="font-bold text-lg mb-2">周刊数据</h4>
                         {video.vrank_info ? (
                           <>
-                            <p className="text-gray-700">周刊得分: {video.vrank_info.vrank_score.toFixed(2)}</p>
-                            <p className="text-gray-700 font-bold text-xl">周刊排名: {video.score_rank}</p>
+                            <p className="text-gray-700">
+                              周刊得分:{" "}
+                              {video.vrank_info.vrank_score.toFixed(2)}
+                            </p>
+                            <p className="text-gray-700 font-bold text-xl">
+                              周刊排名: {video.score_rank}
+                            </p>
                           </>
                         ) : (
                           <p className="text-gray-700">暂无周刊数据</p>
@@ -197,24 +229,48 @@ export default function VideoSearch() {
                           <>
                             <h5 className="font-semibold mt-2">数据增长：</h5>
                             <div className="grid grid-cols-2 gap-2">
-                              <p className="text-gray-700">播放增长: {video.video_increase.view.toLocaleString()}</p>
-                              <p className="text-gray-700">点赞增长: {video.video_increase.like.toLocaleString()}</p>
-                              <p className="text-gray-700">投币增长: {video.video_increase.coin.toLocaleString()}</p>
                               <p className="text-gray-700">
-                                收藏增长: {video.video_increase.favorite.toLocaleString()}
+                                播放增长:{" "}
+                                {video.video_increase.view.toLocaleString()}
                               </p>
-                              <p className="text-gray-700">评论增长: {video.video_increase.reply.toLocaleString()}</p>
-                              <p className="text-gray-700">分享增长: {video.video_increase.share.toLocaleString()}</p>
-                              <p className="text-gray-700">弹幕增长: {video.video_increase.danmaku.toLocaleString()}</p>
+                              <p className="text-gray-700">
+                                点赞增长:{" "}
+                                {video.video_increase.like.toLocaleString()}
+                              </p>
+                              <p className="text-gray-700">
+                                投币增长:{" "}
+                                {video.video_increase.coin.toLocaleString()}
+                              </p>
+                              <p className="text-gray-700">
+                                收藏增长:{" "}
+                                {video.video_increase.favorite.toLocaleString()}
+                              </p>
+                              <p className="text-gray-700">
+                                评论增长:{" "}
+                                {video.video_increase.reply.toLocaleString()}
+                              </p>
+                              <p className="text-gray-700">
+                                分享增长:{" "}
+                                {video.video_increase.share.toLocaleString()}
+                              </p>
+                              <p className="text-gray-700">
+                                弹幕增长:{" "}
+                                {video.video_increase.danmaku.toLocaleString()}
+                              </p>
                             </div>
                           </>
                         )}
                       </div>
                       <p className="text-gray-600 mt-2">
-                        数据更新时间: {new Date(video.video_info.timestamp * 1000).toLocaleString("zh-CN")}
+                        数据更新时间:{" "}
+                        {new Date(
+                          video.video_info.timestamp * 1000
+                        ).toLocaleString("zh-CN")}
                       </p>
                       <div className="mt-4">
-                        <p className="font-semibold">成就: {achievement.name}</p>
+                        <p className="font-semibold">
+                          成就: {achievement.name}
+                        </p>
                         {achievement.next && (
                           <div className="mt-2">
                             <p>
@@ -222,8 +278,8 @@ export default function VideoSearch() {
                               {(achievement.next === "殿堂曲"
                                 ? 100000
                                 : achievement.next === "传说曲"
-                                  ? 1000000
-                                  : 10000000) - video.video_stat.view}{" "}
+                                ? 1000000
+                                : 10000000) - video.video_stat.view}{" "}
                               播放
                             </p>
                             <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
@@ -238,18 +294,37 @@ export default function VideoSearch() {
                     </div>
                   </div>
                 </li>
-              )
+              );
             })}
           </ul>
         ) : (
           !loading && !error && <p>暂无数据</p>
         )}
       </CardContent>
-      <Dialog open={showCoverDialog} onOpenChange={setShowCoverDialog}>
+      {/* <Dialog open={showCoverDialog} onOpenChange={setShowCoverDialog}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>确认显示封面</DialogTitle>
             <DialogDescription>
+              本站依法通过哔哩哔哩开放平台API获取内容引用，相关内容展示严格遵循《信息网络传播权保护条例》关于合理使用的规定。引用内容著作权归属著作权人及哔哩哔哩平台所有，本站不享有任何著作权权益。用户应知悉：
+              <ul>
+                <li>
+                  本站引用行为不替代对原内容的访问，建议通过
+                  <a href="https://www.bilibili.com/video">哔哩哔哩官方链接</a>
+                  获取完整服务
+                </li>
+                <li>
+                  任何单位或个人认为引用涉嫌侵权，请通过 i@mei.lv
+                  提交权属证明，本站将依法处理
+                </li>
+                <li>
+                  内容展示受哔哩哔哩《开发者协议》约束，若接口服务终止将即时停止引用
+                </li>
+                <li>本站对引用内容不享有解释权，观点分歧请以原发布渠道为准</li>
+                <li>
+                  用户不得对引用内容进行下载、转载、改编等二次使用，相关行为需直接获得权利人授权
+                </li>
+              </ul>
               显示的内容仅用于介绍目的，实时引用自哔哩哔哩。除另有说明外，所有权利归著作权人所有，内容不代表本站观点，本站亦非这些内容的著作权人。
             </DialogDescription>
           </DialogHeader>
@@ -264,8 +339,7 @@ export default function VideoSearch() {
             <Button onClick={handleConfirmShowCover}>确认</Button>
           </DialogFooter>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </Card>
-  )
+  );
 }
-
