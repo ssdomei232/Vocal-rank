@@ -250,7 +250,7 @@ export default function VideoSearch() {
           <DialogHeader>
             <DialogTitle>确认显示封面</DialogTitle>
             <DialogDescription>
-              出于对著作权人的尊重建议给出说明：仅以介绍目的从哔哩哔哩实时引用，除另有说明外著作权人保留所有权利，内容不代表本站观点，本站也不是这些内容的著作权人。
+              以下内容仅用于介绍目的，实时引用自哔哩哔哩。除另有说明外，所有权利归原作者所有，内容不代表本站观点，本站亦非这些内容的著作权人。
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
