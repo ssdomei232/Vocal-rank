@@ -30,7 +30,7 @@ export default function BlockedPage() {
         </CardHeader>
         <CardContent>
           <p className="text-red-500 mb-4">抱歉，您尝试访问的内容已被禁止。这可能是由于版权、隐私或其他法律原因。</p>
-          <p className="text-gray-600 mb-4">如果您认为这是一个错误，请联系网站管理员。</p>
+          <p className="text-gray-600 mb-4">如果您认为这是一个错误，请联系 i@mei.lv</p>
           <p className="text-gray-600 mb-4">{countdown} 秒后将自动跳转...</p>
           <Link href="/" className="text-blue-500 hover:underline">
             返回首页

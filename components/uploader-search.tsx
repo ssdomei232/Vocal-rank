@@ -38,7 +38,7 @@ export default function UploaderSearch() {
     setLoading(true)
     setError(null)
     try {
-      const response = await fetch(`https://api.ninevocalrank.top/basic/v1/uploader/${uid}`)
+      const response = await fetch(`https://v-api-proxy-cn-1.mei.lv:3389/basic/v1/uploader/${uid}`)
       if (!response.ok) {
         throw new Error("服务器响应错误")
       }
@@ -53,7 +53,7 @@ export default function UploaderSearch() {
   }
 
   return (
-    <Card className="bg-gradient-to-br from-green-100 to-blue-100 dark:from-green-900 dark:to-blue-900">
+    <Card className="bg-gradient-to-br from-green-100 to-blue-100">
       <CardHeader>
         <CardTitle className="text-2xl font-bold text-primary">通过UID搜索UP主</CardTitle>
       </CardHeader>

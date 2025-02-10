@@ -18,8 +18,8 @@ export default function DatabaseStats() {
     const fetchCounts = async () => {
       try {
         setLoading(true)
-        const videoResponse = await fetch("https://ecs-113-44-166-103.compute.hwclouds-dns.com/basic/v1/database/video_count")
-        const uploaderResponse = await fetch("https://ecs-113-44-166-103.compute.hwclouds-dns.com/basic/v1/database/uploader_count")
+        const videoResponse = await fetch("https://v-api-proxy-cn-1.mei.lv:3389/basic/v1/database/video_count")
+        const uploaderResponse = await fetch("https://v-api-proxy-cn-1.mei.lv:3389/basic/v1/database/uploader_count")
 
         if (!videoResponse.ok || !uploaderResponse.ok) {
           throw new Error("服务器响应错误")
@@ -42,7 +42,7 @@ export default function DatabaseStats() {
   }, [])
 
   return (
-    <Card className="mt-8 bg-gradient-to-br from-pink-100 to-indigo-100 dark:from-pink-900 dark:to-indigo-900">
+    <Card className="mt-8 bg-gradient-to-br from-pink-100 to-indigo-100">
       <CardHeader>
         <CardTitle className="text-2xl font-bold text-primary">数据库统计</CardTitle>
       </CardHeader>

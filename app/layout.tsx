@@ -6,8 +6,9 @@ import type React from "react"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Vocal Rank",
-  description: "Vocal Rank",
+  title: "Vocal Rank - 中V数据查询器（基于 NineVocalRank）",
+  description: "Vocal Rank - 中V数据查询器，基于 NineVocalRank",
+  keywords: ['Vocal Rank', 'NineVocalRank', 'Vocaloid', '中V', 'VC', '中V数据查询器', '周刊虚拟歌手中文曲', '洛天依', '乐正绫'],
 }
 
 export default function RootLayout({

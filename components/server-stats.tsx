@@ -13,7 +13,7 @@ export default function ServerStats() {
     const fetchServerStat = async () => {
       try {
         setLoading(true)
-        const response = await fetch("https://ecs-113-44-166-103.compute.hwclouds-dns.com/basic/v1/ServerStat/info")
+        const response = await fetch("https://v-api-proxy-cn-1.mei.lv:3389/basic/v1/ServerStat/info")
         if (!response.ok) {
           throw new Error("服务器响应错误")
         }
@@ -31,7 +31,7 @@ export default function ServerStats() {
   }, [])
 
   return (
-    <Card className="bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900">
+    <Card className="bg-gradient-to-br from-blue-100 to-purple-100">
       <CardHeader>
         <CardTitle className="text-2xl font-bold text-primary">服务器统计</CardTitle>
       </CardHeader>
