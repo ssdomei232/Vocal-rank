@@ -13,7 +13,7 @@ export default function BlockedPage() {
     }, 1000)
 
     const redirect = setTimeout(() => {
-      window.location.href = "https://www.bilibili.com/video/BV1kW411m7VP"
+      window.location.href = "https://www.bilibili.com/video/BV1GJ411x7h7"
     }, 3000)
 
     return () => {
