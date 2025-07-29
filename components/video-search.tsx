@@ -88,10 +88,10 @@ export default function VideoSearch() {
     setError(null)
     try {
       const response = await fetch(
-        `https://v-api-proxy-cn-1.mei.lv:3389/vocaloid_rank/v1/video/${searchTerm}`,
+        `https://api.mmeiblog.cn/NineVocalRank/vocaloid_rank/v1/video/${searchTerm}`,
       )
       const weekly_response = await fetch(
-        `https://v-api-proxy-cn-1.mei.lv:3389/vocaloid_rank/v1/sorted/${searchTerm}`,
+        `https://api.mmeiblog.cn/NineVocalRank/vocaloid_rank/v1/sorted/${searchTerm}`,
       )
       if (!response.ok || !weekly_response.ok) {
         throw new Error("服务器响应错误")

@@ -13,7 +13,7 @@ export default function ServerStats() {
     const fetchServerStat = async () => {
       try {
         setLoading(true)
-        const response = await fetch("https://v-api-proxy-cn-1.mei.lv:3389/basic/v1/ServerStat/info")
+        const response = await fetch("https://api.mmeiblog.cn/NineVocalRank/basic/v1/ServerStat/info")
         if (!response.ok) {
           throw new Error("服务器响应错误")
         }

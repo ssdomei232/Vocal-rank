@@ -38,7 +38,7 @@ export default function UploaderSearch() {
     setLoading(true)
     setError(null)
     try {
-      const response = await fetch(`https://v-api-proxy-cn-1.mei.lv:3389/basic/v1/uploader/${uid}`)
+      const response = await fetch(`https://api.mmeiblog.cn/NineVocalRank/basic/v1/uploader/${uid}`)
       if (!response.ok) {
         throw new Error("服务器响应错误")
       }
