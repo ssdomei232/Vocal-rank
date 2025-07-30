@@ -29,7 +29,7 @@ export default function UploaderSearch() {
       return
     }
 
-    // 检查是否为禁止的 UP 主 ID
+    // tsy 过滤器
     if (blockedUploaderIds.includes(uid)) {
       router.push("/blocked")
       return
